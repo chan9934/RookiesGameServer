@@ -2,65 +2,58 @@
 {
     internal class Program
     {
-        class SessionManager
+        class SpinLock
         {
-            static object _lock = new object();
+            volatile int _locked = 0;
 
-            public static void Test()
+            public void Aquired()
             {
-                lock(_lock)
+                while(true)
                 {
-                    UserManager.TestSession();
+
+                    int Expected = 0;
+                    int Desired = 1;
+                    int original = Interlocked.CompareExchange(ref _locked, Desired, Expected);
+                    if(original == Expected) { break; }
+
                 }
+
             }
-            public static void TestSession()
+            public void Release()
             {
-                lock(_lock) { }
+                _locked = 0;
             }
         }
-        class UserManager
-        {
-            static object _lock = new object();
-
-            public static void Test()
-            {
-                lock(_lock)
-                {
-                    SessionManager.TestSession();
-                }
-            }
-            public static void TestSession()
-            {
-                lock(_lock) { }
-            }
-        }
-
+        static int _num = 0;
+        static SpinLock _spinLock = new SpinLock();
         static void Thread1()
         {
-            for(int i = 0; i < 100; ++i)
+            for (int i = 0; i < 100000; ++i)
             {
-                SessionManager.Test();
+                _spinLock.Aquired();
+                _num++;
+                _spinLock.Release();
             }
         }
         static void Thread2()
         {
-            for(int i = 0; i < 100; ++i)
+            for (int i = 0; i < 100000; ++i)
             {
-                UserManager.Test();
+                _spinLock.Aquired();
+                _num--;
+                _spinLock.Release();
             }
         }
         static void Main(string[] args)
         {
-            Task t1 = new Task(Thread1);
-            Task t2 = new Task(Thread2);
-            t1.Start();
-            Thread.Sleep(100);
-            t2.Start();
+                Task t1 = new Task(Thread1);
+                Task t2 = new Task(Thread2);
 
-            Task.WaitAll(t1, t2);
+                t1.Start();
+                t2.Start();
+                Task.WaitAll(t1, t2);
 
-            Console.WriteLine("종료");
-
+                Console.WriteLine($"값은 : {_num}");
         }
     }
 }
