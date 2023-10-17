@@ -2,46 +2,25 @@
 {
     internal class Program
     {
-        class SpinLock
-        {
-            volatile int _locked = 0;
-
-            public void Aquired()
-            {
-                while(true)
-                {
-
-                    int Expected = 0;
-                    int Desired = 1;
-                    int original = Interlocked.CompareExchange(ref _locked, Desired, Expected);
-                    if(original == Expected) { break; }
-
-                }
-
-            }
-            public void Release()
-            {
-                _locked = 0;
-            }
-        }
+        
+        static Mutex _lock = new Mutex();
         static int _num = 0;
-        static SpinLock _spinLock = new SpinLock();
         static void Thread1()
         {
             for (int i = 0; i < 100000; ++i)
             {
-                _spinLock.Aquired();
+                _lock.WaitOne();
                 _num++;
-                _spinLock.Release();
+                _lock.ReleaseMutex();
             }
         }
         static void Thread2()
         {
             for (int i = 0; i < 100000; ++i)
             {
-                _spinLock.Aquired();
+                _lock.WaitOne();
                 _num--;
-                _spinLock.Release();
+                _lock.ReleaseMutex();
             }
         }
         static void Main(string[] args)
