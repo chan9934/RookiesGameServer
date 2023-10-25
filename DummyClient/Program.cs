@@ -14,27 +14,31 @@ namespace DummyClient
             IPAddress ipAdr = ipHost.AddressList[0];
             IPEndPoint ipEnd = new IPEndPoint(ipAdr, 7777);
 
-            Socket socket = new Socket(ipEnd.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
-            try
+            while (true)
             {
-                socket.Connect(ipEnd);
-                Console.WriteLine($"Connect To {socket.RemoteEndPoint.ToString}");
 
-                byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World!");
-                int sendData = socket.Send(sendBuff);
+                Socket socket = new Socket(ipEnd.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                try
+                {
+                    socket.Connect(ipEnd);
+                    Console.WriteLine($"Connect To {socket.RemoteEndPoint.ToString}");
 
-                byte[] recvBuff = new byte[1024];
-                int recvBytes = socket.Receive(recvBuff);
-                string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
-                Console.WriteLine($"[FromServer] {recvData}");
+                    byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World!");
+                    int sendData = socket.Send(sendBuff);
 
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.ToString);
+                    byte[] recvBuff = new byte[1024];
+                    int recvBytes = socket.Receive(recvBuff);
+                    string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
+                    Console.WriteLine($"[FromServer] {recvData}");
+
+                    socket.Shutdown(SocketShutdown.Both);
+                    socket.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString);
+                }
+                Thread.Sleep(100);
             }
         }
     }
