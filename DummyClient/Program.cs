@@ -23,9 +23,11 @@ namespace DummyClient
                     socket.Connect(ipEnd);
                     Console.WriteLine($"Connect To {socket.RemoteEndPoint.ToString}");
 
-                    byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World!");
-                    int sendData = socket.Send(sendBuff);
-
+                    for (int i = 0; i < 5; ++i)
+                    {
+                        byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World!");
+                        int sendData = socket.Send(sendBuff);
+                    }
                     byte[] recvBuff = new byte[1024];
                     int recvBytes = socket.Receive(recvBuff);
                     string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
