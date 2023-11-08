@@ -13,3 +13,17 @@ C:\Server\ServerCore\obj\Debug\net6.0\refint\ServerCore.dll
 C:\Server\ServerCore\obj\Debug\net6.0\ServerCore.pdb
 C:\Server\ServerCore\obj\Debug\net6.0\ServerCore.genruntimeconfig.cache
 C:\Server\ServerCore\obj\Debug\net6.0\ref\ServerCore.dll
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\bin\Debug\net6.0\ServerCore.exe
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\bin\Debug\net6.0\ServerCore.deps.json
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\bin\Debug\net6.0\ServerCore.runtimeconfig.json
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\bin\Debug\net6.0\ServerCore.dll
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\bin\Debug\net6.0\ServerCore.pdb
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.AssemblyInfoInputs.cache
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.AssemblyInfo.cs
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.csproj.CoreCompileInputs.cache
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.dll
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\refint\ServerCore.dll
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.pdb
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ServerCore.genruntimeconfig.cache
+C:\Users\SoulX\Desktop\Server\RookiesGameServer\ServerCore\obj\Debug\net6.0\ref\ServerCore.dll

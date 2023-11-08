@@ -13,6 +13,11 @@ namespace ServerCore
         Socket _socket;
         int _disConnected = 0;
 
+        Queue<byte[]> _sendQueue = new Queue<byte[]>();
+        bool _pending = false;
+        object _lock = new object();
+        SocketAsyncEventArgs _sendArgs = new SocketAsyncEventArgs();
+
         public void Start(Socket socket)
         {
             _socket = socket;
@@ -22,7 +27,67 @@ namespace ServerCore
 
             recvArgs.SetBuffer(new byte[1024], 0, 1024);
 
+            _sendArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
+
             RegisterRecv(recvArgs);
+        }
+
+        public void Send(byte[] sendBuff)
+        {
+            lock (_lock)
+            {
+
+                _sendQueue.Enqueue(sendBuff);
+                if (_pending == false)
+                    RegisterSend();
+            }
+        }
+        public void Disconnected()
+        {
+            if (Interlocked.Exchange(ref _disConnected, 1) == 1)
+                return;
+            _socket.Shutdown(SocketShutdown.Both);
+            _socket.Close();
+        }
+        void RegisterSend()
+        {
+            _pending = true;
+            byte[] buff = _sendQueue.Dequeue();
+            _sendArgs.SetBuffer(buff, 0, buff.Length);
+            bool pending = _socket.SendAsync(_sendArgs);
+            if (pending == false)
+            {
+                OnSendCompleted(null, _sendArgs);
+            }
+        }
+
+        void OnSendCompleted(Object sender, SocketAsyncEventArgs args)
+        {
+            lock (_lock)
+            {
+
+                if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
+                {
+                    try
+                    {
+                        if(_sendQueue.Count>0)
+                        {
+                            RegisterSend();
+                        }
+                        else
+                            _pending = false;
+
+                    }
+                    catch (Exception e)
+                    {
+                        Disconnected();
+                    }
+                }
+                else
+                {
+                    Disconnected();
+                }
+            }
         }
 
         void RegisterRecv(SocketAsyncEventArgs args)
@@ -34,17 +99,8 @@ namespace ServerCore
             }
 
         }
-        public void Send(byte[] snedbuffer)
-        {
-            _socket.Send(snedbuffer);
-        }
-        public void Disconnected()
-        {
-            if (Interlocked.Exchange(ref _disConnected, 1) == 1)
-                return;
-            _socket.Shutdown(SocketShutdown.Both);
-            _socket.Close();
-        }
+
+
         void OnRecvCompleted(Object obj, SocketAsyncEventArgs args)
         {
             if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
@@ -57,8 +113,11 @@ namespace ServerCore
                 }
                 catch (Exception e)
                 {
-
                 }
+            }
+            else
+            {
+                Disconnected();
             }
         }
 
