@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z9ZLt6D+c02Kbjj1ZON9rkkcfGDxebPXOzjzkiMqq4OzHvKUGMSejgvASeNvKXf9Lv7tYUA3yTetM+w/RKwwrg==",
+  "dgSpecHash": "XBx4H71AWaYRC9DdS6v2qPcx9w2lC3vYVjpLNRNiqMKN9KUv7oP8WsvLbBq/12IQm6p+QpMMBpyJ0W7ino7ypA==",
   "success": true,
-  "projectFilePath": "C:\\Server\\ServerCore\\ServerCore.csproj",
+  "projectFilePath": "C:\\Users\\SoulX\\Desktop\\Server\\RookiesGameServer\\ServerCore\\ServerCore.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
